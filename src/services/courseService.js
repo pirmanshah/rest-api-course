@@ -28,7 +28,7 @@ const courseService = (() => {
 
     const coursesWithEnrolls = [];
     popularCourses.forEach((course) => {
-      const existingCourse = coursesWithEnrolls.find((c) => c.id === course.id);
+      const existingCourse = coursesWithEnrolls.find((courseWithEnroll) => courseWithEnroll.id === course.id);
       if (existingCourse) {
         existingCourse.enrolls.push({
           id: course.enroll_id,
