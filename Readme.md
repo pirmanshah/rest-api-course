@@ -1,4 +1,4 @@
-[![Express Logo](https://miro.medium.com/v2/resize:fit:1400/1*XP-mZOrIqX7OsFInN2ngRQ.png)](https://expressjs.com/)
+[![Express Logo](https://i.cloudup.com/zfY6lL7eFa-3000x3000.png)](http://expressjs.com/)
 
 # RESTful API with Express
 
@@ -23,7 +23,7 @@ You need Node.js installed on your machine. Simply download the installer from n
 
 Once Node.js is installed, open your command prompt or terminal and navigate into this project folder. There, run `npm install` to install all required dependencies.
 
-Finally, run `npm run dev` to start the development server and visit `http://localhost:8000`.
+Finally, run `npm run dev` to start the development server and visit `http://localhost:8000/api`.
 
 ## API Methods
 
