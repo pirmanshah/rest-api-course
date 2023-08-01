@@ -1,7 +1,8 @@
 const courseService = require('@services/courseService');
+const catchAsync = require('@utils/catchAsync');
 
 const courseController = (() => {
-  const index = async (request, response) => {
+  const index = catchAsync(async (request, response) => {
     const courses = await courseService.findAll();
 
     response.json({
@@ -10,9 +11,9 @@ const courseController = (() => {
         courses,
       },
     });
-  };
+  });
 
-  const getById = async (request, response) => {
+  const getById = catchAsync(async (request, response) => {
     const { courseId } = request.params;
     const course = await courseService.findById(courseId);
 
@@ -22,9 +23,9 @@ const courseController = (() => {
         course,
       },
     });
-  };
+  });
 
-  const getPopulars = async (request, response) => {
+  const getPopulars = catchAsync(async (request, response) => {
     const courses = await courseService.findPopulars();
 
     response.json({
@@ -33,9 +34,9 @@ const courseController = (() => {
         courses,
       },
     });
-  };
+  });
 
-  const getByTitle = async (request, response) => {
+  const getByTitle = catchAsync(async (request, response) => {
     const { title } = request.query;
 
     const courses = await courseService.findByTitle(title);
@@ -46,7 +47,7 @@ const courseController = (() => {
         courses,
       },
     });
-  };
+  });
 
   return {
     index,
