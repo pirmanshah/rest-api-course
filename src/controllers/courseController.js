@@ -49,11 +49,25 @@ const courseController = (() => {
     });
   });
 
+  const getByUserId = catchAsync(async (request, response) => {
+    const { userId } = request.query;
+
+    const courses = await courseService.findByUserId(userId);
+
+    response.json({
+      status: 'success',
+      data: {
+        courses,
+      },
+    });
+  });
+
   return {
     index,
     getById,
     getByTitle,
     getPopulars,
+    getByUserId,
   };
 })();
 

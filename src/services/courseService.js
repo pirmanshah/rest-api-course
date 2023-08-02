@@ -15,6 +15,16 @@ const courseService = (() => {
     return course;
   };
 
+  const findByUserId = async (userId) => {
+    const course = await knex
+      .select('course.*')
+      .from('course')
+      .leftJoin('enroll', 'enroll.id_course', '=', 'course.id')
+      .where('enroll.id_user', userId);
+
+    return course;
+  };
+
   const findByTitle = async (title) => {
     const courses = await knex.select('*').from('course').whereRaw('LOWER(judul) LIKE ?', `%${title.toLowerCase()}%`);
 
@@ -62,6 +72,7 @@ const courseService = (() => {
     findAll,
     findById,
     findByTitle,
+    findByUserId,
     findPopulars,
   };
 })();
