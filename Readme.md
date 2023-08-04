@@ -29,11 +29,12 @@ Finally, run `npm run dev` to start the development server and visit `http://loc
 
 List of routes:
 
-| Route                           | HTTP | Auth | Descriptions        |
-| :------------------------------ | :--- | :--- | :------------------ |
-| `/auth`                         | POST | No   | authentication      |
-| `/course`                       | GET  | Yes  | Get all course      |
-| `/course/populars`              | GET  | Yes  | Get popular course  |
-| `/course/search?title=${title}` | GET  | Yes  | Get course by title |
-| `/users`                        | GET  | Yes  | Get all users       |
-| `/users/{id}`                   | GET  | Yes  | Get specified user  |
+| Route                           | HTTP | Auth | Descriptions         |
+| :------------------------------ | :--- | :--- | :------------------- |
+| `/auth`                         | POST | No   | authentication       |
+| `/course`                       | GET  | Yes  | Get all course       |
+| `/course/populars`              | GET  | Yes  | Get popular course   |
+| `/course/search?title=${title}` | GET  | Yes  | Get course by title  |
+| `/course/user?userId=${userId}` | GET  | Yes  | Get course by userId |
+| `/users`                        | GET  | Yes  | Get all users        |
+| `/users/{id}`                   | GET  | Yes  | Get specified user   |
