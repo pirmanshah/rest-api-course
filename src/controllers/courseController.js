@@ -52,7 +52,7 @@ const courseController = (() => {
   const getByUserId = catchAsync(async (request, response) => {
     const { userId } = request.query;
 
-    const courses = await courseService.findByUserId(userId);
+    const courses = await courseService.findByUserId(Number(userId));
 
     response.json({
       status: 'success',
@@ -62,9 +62,23 @@ const courseController = (() => {
     });
   });
 
+  const getDetail = catchAsync(async (request, response) => {
+    const { courseId } = request.query;
+
+    const course = await courseService.findDetail(courseId);
+
+    response.json({
+      status: 'success',
+      data: {
+        course,
+      },
+    });
+  });
+
   return {
     index,
     getById,
+    getDetail,
     getByTitle,
     getPopulars,
     getByUserId,

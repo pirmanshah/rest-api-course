@@ -4,9 +4,39 @@ const knex = createKnex();
 
 const courseService = (() => {
   const findAll = async () => {
-    const courses = await knex.select('*').from('course');
+    const courses = await knex('course')
+      .leftJoin('enroll', function () {
+        this.on('course.id', '=', 'enroll.id_course').andOn('enroll.id_user', '=', 98);
+      })
+      .select('course.*')
+      .whereNull('enroll.id'); // Mengambil course yang belum di enroll oleh user
 
     return courses;
+  };
+
+  const findDetail = async (courseId) => {
+    const course = await knex('course').where('id', courseId).first('judul');
+
+    const sections = await knex('section').where('course_id', courseId).select('id', 'judul_section');
+
+    const result = {
+      title: course.judul,
+      courses: [],
+    };
+
+    for (const section of sections) {
+      const videos = await knex('video').where('section_id', section.id).select('id', 'judul_video', 'link');
+
+      const formattedSection = {
+        id: section.id,
+        title: section.judul_section,
+        sections: videos,
+      };
+
+      result.courses.push(formattedSection);
+    }
+
+    return result;
   };
 
   const findById = async (courseId) => {
@@ -16,13 +46,14 @@ const courseService = (() => {
   };
 
   const findByUserId = async (userId) => {
-    const course = await knex
+    const courses = await knex('course')
+      .join('enroll', 'course.id', 'enroll.id_course')
+      .join('transactions', 'enroll.transactionId', 'transactions.id')
       .select('course.*')
-      .from('course')
-      .leftJoin('enroll', 'enroll.id_course', '=', 'course.id')
-      .where('enroll.id_user', userId);
+      .where('transactions.statusId', 1)
+      .andWhere('enroll.id_user', userId);
 
-    return course;
+    return courses;
   };
 
   const findByTitle = async (title) => {
@@ -71,6 +102,7 @@ const courseService = (() => {
   return {
     findAll,
     findById,
+    findDetail,
     findByTitle,
     findByUserId,
     findPopulars,

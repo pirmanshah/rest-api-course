@@ -5,7 +5,7 @@ const knex = createKnex();
 const cartService = (() => {
   const findByUser = async (userId) => {
     const carts = await knex
-      .select('carts.id', 'course.judul', 'course.harga')
+      .select('carts.id', 'carts.courseId', 'course.judul', 'course.harga')
       .from('carts')
       .join('course', 'carts.courseId', 'course.id')
       .where('carts.userId', userId);
@@ -28,10 +28,26 @@ const cartService = (() => {
     await knex('carts').where('carts.id', cartId).del();
   };
 
+  const deletedMany = async (carts) => {
+    const deleteConditions = carts.map((cart) => ({
+      courseId: cart.id_course,
+      userId: cart.id_user,
+    }));
+
+    await knex('carts')
+      .where((builder) => {
+        deleteConditions.forEach((condition) => {
+          builder.orWhere(condition);
+        });
+      })
+      .del();
+  };
+
   return {
     findByUser,
     deleteById,
     create,
+    deletedMany,
   };
 })();
 
