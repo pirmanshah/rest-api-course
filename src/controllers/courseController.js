@@ -54,7 +54,7 @@ const courseController = (() => {
   const getByUserId = catchAsync(async (request, response) => {
     const { userId } = request.query;
 
-    const courses = await courseService.findByUserId(Number(userId));
+    const courses = await courseService.findByUserId(userId);
 
     response.json({
       status: 'success',

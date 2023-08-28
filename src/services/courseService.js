@@ -45,7 +45,9 @@ const courseService = (() => {
     return course;
   };
 
-  const findByUserId = async (userId) => {
+  const findByUserId = async (id) => {
+    const userId = id ? Number(id) : null;
+
     const courses = await knex('course')
       .join('enroll', 'course.id', 'enroll.id_course')
       .join('transactions', 'enroll.transactionId', 'transactions.id')

@@ -3,6 +3,8 @@ const userRouter = require('./userRouter');
 const authRouter = require('./authRouter');
 const cartRouter = require('./cartRouter');
 const bankRouter = require('./bankRouter');
+const levelRouter = require('./levelRouter');
+const topicRouter = require('./topicRouter');
 const courseRouter = require('./courseRouter');
 const categoryRouter = require('./categoryRouter');
 const transactionRouter = require('./transactionRouter');
@@ -10,6 +12,8 @@ const transactionRouter = require('./transactionRouter');
 
 router.use('/auth', authRouter);
 router.use('/users', userRouter);
+router.use('/level', levelRouter);
+router.use('/topic', topicRouter);
 router.use('/carts', cartRouter);
 router.use('/banks', bankRouter);
 router.use('/courses', courseRouter);
