@@ -13,8 +13,20 @@ const userController = (() => {
     });
   });
 
+  const create = catchAsync(async (request, response) => {
+    const payload = request.body;
+
+    await userService.create(payload);
+
+    response.status(201).json({
+      status: 'success',
+      message: 'Register success!',
+    });
+  });
+
   return {
     index,
+    create,
   };
 })();
 

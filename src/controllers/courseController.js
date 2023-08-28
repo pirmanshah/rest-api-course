@@ -3,7 +3,9 @@ const catchAsync = require('@utils/catchAsync');
 
 const courseController = (() => {
   const index = catchAsync(async (request, response) => {
-    const courses = await courseService.findAll();
+    const { userId = null } = request.query;
+
+    const courses = await courseService.findAll(Number(userId));
 
     response.json({
       status: 'success',

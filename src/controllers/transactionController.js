@@ -4,6 +4,19 @@ const cartService = require('@services/cartService');
 const catchAsync = require('@utils/catchAsync');
 
 const transactionController = (() => {
+  const index = catchAsync(async (request, response) => {
+    const { userId } = request.query;
+
+    const transactions = await transactionService.findByUserId(Number(userId));
+
+    response.json({
+      status: 'success',
+      data: {
+        transactions,
+      },
+    });
+  });
+
   const create = catchAsync(async (request, response) => {
     const { sender, bankId, account, userId, carts, amount } = request.body;
     const { filename } = request.file;
@@ -36,6 +49,7 @@ const transactionController = (() => {
   });
 
   return {
+    index,
     create,
   };
 })();

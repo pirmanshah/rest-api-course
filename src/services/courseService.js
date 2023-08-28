@@ -3,10 +3,10 @@ const createKnex = require('@config/createKnex');
 const knex = createKnex();
 
 const courseService = (() => {
-  const findAll = async () => {
+  const findAll = async (userId) => {
     const courses = await knex('course')
       .leftJoin('enroll', function () {
-        this.on('course.id', '=', 'enroll.id_course').andOn('enroll.id_user', '=', 98);
+        this.on('course.id', '=', 'enroll.id_course').andOn('enroll.id_user', '=', userId);
       })
       .select('course.*')
       .whereNull('enroll.id'); // Mengambil course yang belum di enroll oleh user
