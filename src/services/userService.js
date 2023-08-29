@@ -11,7 +11,7 @@ const userService = (() => {
   };
 
   const create = async (payload) => {
-    const { name, email, password, interest } = payload;
+    const { name, email, password } = payload;
     const hashPassord = await bcrypt.hash(password, 12);
 
     await knex('users').insert({
@@ -20,8 +20,10 @@ const userService = (() => {
       password: hashPassord,
       role_id: 2,
       status_id: 1,
-      interest: interest,
     });
+    const result = await knex.raw('SELECT LAST_INSERT_ID() as userId');
+
+    return result[0][0].userId;
   };
 
   return {

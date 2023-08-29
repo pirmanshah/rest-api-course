@@ -1,4 +1,5 @@
 const userService = require('@services/userService');
+const interestService = require('@services/interestService');
 const catchAsync = require('@utils/catchAsync');
 
 const userController = (() => {
@@ -16,7 +17,8 @@ const userController = (() => {
   const create = catchAsync(async (request, response) => {
     const payload = request.body;
 
-    await userService.create(payload);
+    const userId = await userService.create(payload);
+    await interestService.create({ ...payload, userId: userId });
 
     response.status(201).json({
       status: 'success',

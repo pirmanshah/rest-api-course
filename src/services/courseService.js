@@ -3,17 +3,6 @@ const createKnex = require('@config/createKnex');
 const knex = createKnex();
 
 const courseService = (() => {
-  const findAll = async (userId) => {
-    const courses = await knex('course')
-      .leftJoin('enroll', function () {
-        this.on('course.id', '=', 'enroll.id_course').andOn('enroll.id_user', '=', userId);
-      })
-      .select('course.*')
-      .whereNull('enroll.id'); // Mengambil course yang belum di enroll oleh user
-
-    return courses;
-  };
-
   const findDetail = async (courseId) => {
     const course = await knex('course').where('id', courseId).first('judul');
 
@@ -40,9 +29,74 @@ const courseService = (() => {
   };
 
   const findById = async (courseId) => {
-    const course = await knex.select('*').from('course').where('id', courseId);
+    const course = await knex.select('*').from('course').where('id', courseId).first();
 
     return course;
+  };
+
+  const findAllByUser = async (id) => {
+    const userId = id ? Number(id) : null;
+
+    const courses = await knex('course')
+      .leftJoin('enroll', function () {
+        this.on('course.id', '=', 'enroll.id_course').andOn('enroll.id_user', '=', userId);
+      })
+      .select('course.*')
+      .whereNull('enroll.id'); // Mengambil course yang belum di enroll oleh user
+
+    return courses;
+  };
+
+  const findAll = async (id) => {
+    const userId = id !== undefined ? Number(id) : null;
+
+    const rawData = await knex('interests')
+      .join('kategori', 'interests.categoryId', '=', 'kategori.id')
+      .join('level', 'interests.levelId', '=', 'level.id')
+      .join('topic', 'interests.topicId', '=', 'topic.id')
+      .select('interests.userId', 'interests.topicId', 'kategori.keterangan as kategori', 'level.keterangan as level', 'topic.keterangan as topic')
+      .where('userId', userId)
+      .first();
+
+    const userInterest = {
+      id: 0,
+      judul: '',
+      topic: rawData.topic, // Here, you need to fetch the actual topic data based on topicId
+      kategori: rawData.kategori, // Fetch kategori data based on categoryId
+      level: rawData.level, // Fetch level data based on levelId
+    };
+
+    const courseData = await knex('course')
+      .join('subkategori', 'course.subkategori_id', '=', 'subkategori.id')
+      .join('kategori', 'subkategori.kategori_id', '=', 'kategori.id')
+      .join('level', 'course.level_id', '=', 'level.id')
+      .join('topic', 'topic.course_id', '=', 'course.id')
+      .select(
+        'course.id',
+        'course.judul',
+        'subkategori.keterangan as subkategori',
+        'kategori.keterangan as kategori',
+        'level.keterangan as level',
+        'topic.keterangan as topic'
+      )
+      .whereNot('course.id', rawData.topicId) // Exclude user's interest topic
+      .andWhereNot('course.id', userInterest.id) // Exclude user's interest course
+      .orderBy('course.id');
+
+    return [userInterest, ...courseData];
+  };
+
+  const findByUserIdAll = async (id) => {
+    const userId = id ? Number(id) : null;
+
+    const courses = await knex('course')
+      .join('enroll', 'course.id', 'enroll.id_course')
+      .join('transactions', 'enroll.transactionId', 'transactions.id')
+      .select('course.*', 'transactions.statusId')
+      .andWhere('enroll.id_user', userId)
+      .andWhere(knex.raw('?? IS NOT NULL', ['enroll.id_user'])); // Tambahkan ini
+
+    return courses;
   };
 
   const findByUserId = async (id) => {
@@ -53,7 +107,8 @@ const courseService = (() => {
       .join('transactions', 'enroll.transactionId', 'transactions.id')
       .select('course.*')
       .where('transactions.statusId', 1)
-      .andWhere('enroll.id_user', userId);
+      .andWhere('enroll.id_user', userId)
+      .andWhere(knex.raw('?? IS NOT NULL', ['enroll.id_user'])); // Tambahkan ini
 
     return courses;
   };
@@ -108,6 +163,8 @@ const courseService = (() => {
     findByTitle,
     findByUserId,
     findPopulars,
+    findAllByUser,
+    findByUserIdAll,
   };
 })();
 

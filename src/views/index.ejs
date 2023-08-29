@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Data Sample</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <h4 class="mt-2">Sample Data UserId 58 (Raihan)</h4>
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Kata</th>
+              <% for (const key in data.tfResult[0].data) { %>
+              <th><%= key %></th>
+              <% } %>
+              <th>df</th>
+              <th>idf</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% data.tfResult.forEach(entry => { %>
+            <tr>
+              <td><%= entry.kata %></td>
+              <% for (const key in entry.data) { %>
+              <td><%= entry.data[key] %></td>
+              <% } %>
+              <td><%= entry.df %></td>
+              <td><%= entry.idf %></td>
+            </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="table-responsive">
+        <h2>TF-IDF Table</h2>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Kata</th>
+              <% for (const key in data.tfResult[0]['tf-idf']) { %>
+              <th><%= key %></th>
+              <% } %>
+            </tr>
+          </thead>
+          <tbody>
+            <% data.tfResult.forEach(entry => { %>
+            <tr>
+              <td><%= entry.kata %></td>
+              <% for (const key in entry['tf-idf']) { %>
+              <td><%= entry['tf-idf'][key] %></td>
+              <% } %>
+            </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
