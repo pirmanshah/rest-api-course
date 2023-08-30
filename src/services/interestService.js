@@ -10,13 +10,13 @@ const interestService = (() => {
   };
 
   const create = async (payload) => {
-    const { topicId, levelId, userId, categoryId } = payload;
+    const { topic, level, userId, category } = payload;
 
     await knex('interests').insert({
-      topicId: topicId,
-      levelId: levelId,
+      topicId: topic,
+      levelId: level,
       userId: userId,
-      categoryId: categoryId,
+      categoryId: category,
     });
   };
 

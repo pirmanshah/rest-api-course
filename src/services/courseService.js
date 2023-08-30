@@ -50,20 +50,14 @@ const courseService = (() => {
   const findAll = async (id) => {
     const userId = id !== undefined ? Number(id) : null;
 
-    const rawData = await knex('interests')
-      .join('kategori', 'interests.categoryId', '=', 'kategori.id')
-      .join('level', 'interests.levelId', '=', 'level.id')
-      .join('topic', 'interests.topicId', '=', 'topic.id')
-      .select('interests.userId', 'interests.topicId', 'kategori.keterangan as kategori', 'level.keterangan as level', 'topic.keterangan as topic')
-      .where('userId', userId)
-      .first();
+    const rawData = await knex('interests').select('*').where('userId', userId).first();
 
     const userInterest = {
       id: 0,
       judul: '',
-      topic: rawData.topic, // Here, you need to fetch the actual topic data based on topicId
-      kategori: rawData.kategori, // Fetch kategori data based on categoryId
-      level: rawData.level, // Fetch level data based on levelId
+      topic: rawData.topicId, // Here, you need to fetch the actual topic data based on topicId
+      kategori: rawData.kategoriId, // Fetch kategori data based on categoryId
+      level: rawData.levelId, // Fetch level data based on levelId
     };
 
     const courseData = await knex('course')
@@ -79,8 +73,6 @@ const courseService = (() => {
         'level.keterangan as level',
         'topic.keterangan as topic'
       )
-      .whereNot('course.id', rawData.topicId) // Exclude user's interest topic
-      .andWhereNot('course.id', userInterest.id) // Exclude user's interest course
       .orderBy('course.id');
 
     return [userInterest, ...courseData];

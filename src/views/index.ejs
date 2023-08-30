@@ -40,30 +40,6 @@
           </tbody>
         </table>
       </div>
-
-      <div class="table-responsive">
-        <h2>TF-IDF Table</h2>
-        <table class="table">
-          <thead>
-            <tr>
-              <th>Kata</th>
-              <% for (const key in data.tfResult[0]['tf-idf']) { %>
-              <th><%= key %></th>
-              <% } %>
-            </tr>
-          </thead>
-          <tbody>
-            <% data.tfResult.forEach(entry => { %>
-            <tr>
-              <td><%= entry.kata %></td>
-              <% for (const key in entry['tf-idf']) { %>
-              <td><%= entry['tf-idf'][key] %></td>
-              <% } %>
-            </tr>
-            <% }) %>
-          </tbody>
-        </table>
-      </div>
     </div>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
