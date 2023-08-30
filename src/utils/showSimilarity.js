@@ -132,11 +132,11 @@ function showSimilarity(data) {
     const similarity = item.similarity;
     let label = '';
 
-    if (similarity >= 0.5 && similarity <= 1) {
+    if (similarity >= 0.3 && similarity <= 1) {
       label = 'Relevan';
-    } else if (similarity >= 0.11 && similarity <= 0.49) {
+    } else if (similarity >= 0.1 && similarity < 0.3) {
       label = 'Recomended';
-    } else if (similarity >= 0 && similarity <= 0.1) {
+    } else if (similarity >= 0 && similarity < 0.1) {
       label = 'Not Recomended';
     }
 
@@ -147,7 +147,6 @@ function showSimilarity(data) {
     };
   });
 
-  console.log(finalResult);
   return {
     tfResult,
     finalResult,

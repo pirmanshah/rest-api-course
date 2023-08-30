@@ -73,6 +73,8 @@ const courseService = (() => {
         'level.keterangan as level',
         'topic.keterangan as topic'
       )
+      .whereNot('course.id', rawData.topicId) // Exclude user's interest topic
+      .andWhereNot('course.id', userInterest.id) // Exclude user's interest course
       .orderBy('course.id');
 
     return [userInterest, ...courseData];

@@ -27,7 +27,7 @@ const courseController = (() => {
     // Pisahkan kursus yang direkomendasikan dan yang tidak direkomendasikan
     const recommendedCourses = combinedData.filter((item) => item.label !== 'Not Recomended').sort((a, b) => b.similarity - a.similarity);
 
-    const notRecommendedCourses = combinedData.filter((item) => item.label === 'Not Recomended');
+    const notRecommendedCourses = combinedData.filter((item) => item.label === 'Not Recomended').sort((a, b) => b.similarity - a.similarity);
 
     response.json({
       status: 'success',

@@ -133,8 +133,10 @@ function getSimilarity(data) {
     let label = '';
 
     if (similarity >= 0.3 && similarity <= 1) {
+      label = 'Relevan';
+    } else if (similarity >= 0.1 && similarity < 0.3) {
       label = 'Recomended';
-    } else if (similarity >= 0 && similarity <= 0.3) {
+    } else if (similarity >= 0 && similarity < 0.1) {
       label = 'Not Recomended';
     }
 

@@ -13,7 +13,7 @@
   </head>
   <body>
     <div class="container">
-      <h4 class="mt-2">Sample Data UserId 58 (Raihan)</h4>
+      <h4 class="mt-2">Sample Data UserId <%= userId %> (<%= name %>)</h4>
       <div class="table-responsive">
         <table class="table">
           <thead>
@@ -37,6 +37,51 @@
               <td><%= entry.idf %></td>
             </tr>
             <% }) %>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="table-responsive my-5">
+        <h2>TF-IDF Table</h2>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Kata</th>
+              <% for (const key in data.tfResult[0]['tf-idf']) { %>
+              <th><%= key %></th>
+              <% } %>
+            </tr>
+          </thead>
+          <tbody>
+            <% data.tfResult.forEach(entry => { %>
+            <tr>
+              <td><%= entry.kata %></td>
+              <% for (const key in entry['tf-idf']) { %>
+              <td><%= entry['tf-idf'][key] %></td>
+              <% } %>
+            </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="table-responsive my-5">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Course</th>
+              <th>Similarity</th>
+              <th>Label</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% data.finalResult.forEach(item => { %>
+            <tr>
+              <td><%= item.course %></td>
+              <td><%= item.similarity %></td>
+              <td><%= item.label %></td>
+            </tr>
+            <% }); %>
           </tbody>
         </table>
       </div>
